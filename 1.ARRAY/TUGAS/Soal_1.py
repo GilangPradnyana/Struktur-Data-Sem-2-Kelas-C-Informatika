@@ -20,7 +20,7 @@ for i in range(1, 11):
             print("Masukkan angka yang valid!")
 
 
-# 2 & 3 & 4 - Proses data
+# Proses data
 
 
 # Nilai tertinggi & terendah
@@ -29,7 +29,7 @@ nilai_min = min(nilai)
 
 # Rata-rata
 rata_rata = statistics.mean(nilai)
-# atau: rata_rata = sum(nilai) / len(nilai)
+
 
 
 lulus = sum(1 for n in nilai if n >= 60)
@@ -50,7 +50,7 @@ print(f"Jumlah lulus       : {lulus} orang ({lulus/10*100:.1f}%)")
 print(f"Jumlah tidak lulus : {tidak_lulus} orang")
 print("="*50 + "\n")
 
-# 5. Grafik nilai tertinggi & terendah + rata-rata
+# Grafik nilai tertinggi & terendah + rata-rata
 
 plt.figure(figsize=(8, 5))
 
