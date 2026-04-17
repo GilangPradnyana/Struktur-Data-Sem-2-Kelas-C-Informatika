@@ -112,3 +112,29 @@ class PrinterQueue:
         
         print(f"\nTotal dokumen dalam antrian: {self.size}")
         print("="*60)
+
+# ====================== PROGRAM UTAMA ======================
+if __name__ == "__main__":
+    print("🚀 SISTEM ANTRIAN PRINTER - Laboratorium Komputer")
+    print("Menggunakan Queue berbasis Linked List\n")
+    
+    printer = PrinterQueue()
+    
+    # Contoh simulasi penggunaan
+    printer.enqueue("Laporan_UTS.pdf", 15, "I Putu Gilang Pradnyana")
+    printer.enqueue("Tugas_Akhir.docx", 8, "Budi Santoso")
+    printer.enqueue("Slide_Presentasi.pptx", 12, "Siti Aisyah")
+    
+    printer.display()
+    
+    printer.peek()
+    
+    printer.dequeue()   # Mencetak dokumen pertama
+    printer.display()
+    
+    printer.dequeue()   # Mencetak dokumen kedua
+    printer.display()
+    
+    # Tambah dokumen baru saat antrian sedang berjalan
+    printer.enqueue("Kwitansi_Semester.pdf", 3, "Ahmad Fauzi")
+    printer.display()
