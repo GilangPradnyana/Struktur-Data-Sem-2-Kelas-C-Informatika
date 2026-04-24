@@ -1,131 +1,73 @@
-# Sistem Antrian Printer Menggunakan Queue (Linked List)
+# SISTEM ANTRIAN PRINTER (PRINT QUEUE)
 
-**Project UTS Mata Kuliah Struktur Data**  
-**Semester Genap 2025/2026**
+**Project UTS – Struktur Data**  
+**Semester Genap 2025/2026**  
+**Mata Kuliah:** Struktur Data  
+**Tema:** Penerapan Queue dan Stack  
+**Studi Kasus:** Sistem Antrian Printer (Print Queue)
 
-## Deskripsi Proyek
-Proyek ini merupakan implementasi **Sistem Antrian Printer** berbasis **Queue** menggunakan **Linked List**. Sistem ini mensimulasikan proses antrian dokumen yang akan dicetak di laboratorium komputer atau kantor, dengan menerapkan prinsip **FIFO (First In First Out)**.
+---
 
-Pengguna dapat menambahkan dokumen ke antrian, melihat dokumen yang akan dicetak berikutnya, mencetak dokumen (dequeue), serta melihat seluruh daftar antrian saat ini.
+## 1. Rumusan Masalah dan Solusi
 
-## Anggota Kelompok
+### Rumusan Masalah
 
-| Nama Lengkap                  | NIM          | Peran              |
-|-------------------------------|--------------|--------------------|
-| I Putu Gilang Pradnyana       | 2501010067 | Koordinator / Developer |
-| Petrus K Sanexsel Das SA      | 2501010346   | Developer          |
+1. Bagaimana queue dapat digunakan untuk mengelola antrian dokumen pada sistem printer agar dokumen diproses secara terurut dan adil sesuai prinsip FIFO?
+2. Bagaimana implementasi linked list dapat meningkatkan fleksibilitas dan efisiensi dibandingkan array statis dalam pengelolaan antrian printer yang dinamis?
+3. Bagaimana sistem antrian printer mampu menyelesaikan masalah nyata pada dunia teknologi, yaitu penumpukan dokumen dan ketidakteraturan urutan pencetakan?
 
+### Solusi yang Ditawarkan
 
-## Fitur yang Diimplementasikan
+Sistem ini dirancang sebagai **Print Queue Simulator** yang menggunakan **Queue berbasis Linked List**. Setiap dokumen (nama file + jumlah halaman) dimasukkan ke dalam antrian secara FIFO. Sistem menyediakan operasi standar Queue (Enqueue, Dequeue, Peek, Display) sehingga printer dapat memproses dokumen satu per satu sesuai urutan kedatangan. Dengan Linked List, ukuran antrian menjadi dinamis (tidak terbatas) dan hemat memori.
 
-- **Enqueue** : Menambahkan dokumen baru ke belakang antrian
-- **Dequeue** : Mencetak (menghapus) dokumen dari depan antrian
-- **Peek**    : Melihat dokumen yang akan dicetak berikutnya tanpa menghapus
-- **Display** : Menampilkan seluruh dokumen dalam antrian
-- Implementasi menggunakan **Linked List** (bukan Array)
+---
 
-## Teknologi yang Digunakan
-- Python 3
-- Struktur Data: **Singly Linked List** untuk implementasi Queue
-- Prinsip: **FIFO (First In First Out)**
+## 2. Landasan Teori
 
-## Cara Menjalankan Program
+Struktur data adalah cara menyimpan dan mengorganisir data agar dapat diakses dan dimanipulasi secara efisien. Menurut Goodrich dkk. (2013), struktur data merupakan fondasi penting dalam pengembangan perangkat lunak karena memengaruhi kinerja algoritma.
 
-1. Clone repository ini:
-   ```bash
-   git clone https://github.com/username/repo-kamu.git 
+Queue adalah struktur data linier yang menerapkan prinsip **FIFO (First In First Out)**, yaitu elemen yang pertama masuk akan keluar pertama kali. Queue banyak digunakan pada sistem antrian seperti printer, antrian pelayanan, dan buffer data. Sebaliknya, Stack menerapkan prinsip **LIFO (Last In First Out)**.
 
+Dalam implementasi Queue, terdapat dua pendekatan utama: menggunakan **Array** (ukuran tetap) dan **Linked List** (ukuran dinamis). Linked List lebih fleksibel karena tidak memerlukan alokasi memori statis di awal dan memungkinkan penambahan serta penghapusan elemen dengan kompleksitas waktu O(1) pada operasi Enqueue dan Dequeue (Cormen et al., 2009).
 
+Referensi ilmiah yang digunakan:
 
-1. Rumusan Masalah dan Solusi
-Rumusan Masalah:
+1. Goodrich, M. T., Tamassia, R., & Goldwasser, M. H. (2013). _Data Structures and Algorithms in Python_. Wiley.
+2. Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). _Introduction to Algorithms_ (3rd ed.). MIT Press.
+3. Sedgewick, R., & Wayne, K. (2011). _Algorithms_ (4th ed.). Addison-Wesley.
 
-Bagaimana Queue dapat digunakan untuk mengelola antrian dokumen printer secara teratur agar tidak terjadi kekacauan dalam proses pencetakan?
-Bagaimana implementasi Linked List pada Queue dapat meningkatkan fleksibilitas dan efisiensi dibandingkan penggunaan array statis dalam mengelola antrian yang dinamis?
-Bagaimana sebuah sistem antrian printer mampu menyelesaikan masalah antrian yang tidak teratur, lama menunggu, dan sulitnya melacak dokumen yang sedang diproses di laboratorium komputer?
+---
 
-Solusi yang Ditawarkan:
-Sistem Antrian Printer yang dibangun menggunakan struktur data Queue berbasis Linked List menawarkan solusi yang efektif untuk permasalahan di atas. Sistem ini menerapkan prinsip FIFO (First In First Out) sehingga dokumen yang masuk pertama akan dicetak terlebih dahulu. Penggunaan Linked List memungkinkan penambahan dan penghapusan dokumen secara dinamis tanpa batas ukuran tetap, sehingga lebih fleksibel dibandingkan array. Sistem ini juga menyediakan fitur enqueue, dequeue, peek, dan display yang memudahkan pengguna dalam mengelola antrian secara real-time.
+## 3. Desain Sistem dan Implementasi
 
-2. Landasan Teori
-Struktur data merupakan cara untuk mengorganisir, menyimpan, dan mengelola data agar dapat diakses dan dimanipulasi secara efisien. Menurut Cormen et al. (2009), struktur data adalah dasar dari semua algoritma yang efisien karena pemilihan struktur data yang tepat akan sangat memengaruhi kinerja suatu program.
-Queue adalah salah satu struktur data linier yang menerapkan konsep FIFO (First In First Out), artinya elemen yang pertama masuk akan menjadi elemen pertama yang keluar. Queue banyak digunakan dalam sistem antrian seperti antrian pelanggan, antrian proses di sistem operasi, dan antrian printer. Dalam implementasi Queue, terdapat dua operasi utama yaitu Enqueue (menambahkan elemen) dan Dequeue (menghapus elemen).
-Implementasi Queue dapat dilakukan dengan dua cara utama, yaitu menggunakan Array dan Linked List. Implementasi dengan Array memiliki kelemahan yaitu ukuran yang statis dan memerlukan shifting elemen saat antrian penuh atau kosong. Sedangkan implementasi menggunakan Linked List bersifat dinamis, tidak memerlukan ukuran awal, serta operasi Enqueue dan Dequeue dapat dilakukan dengan kompleksitas waktu O(1) jika pointer rear dan front dikelola dengan baik.
-Dalam proyek ini, Queue diimplementasikan menggunakan Singly Linked List karena memberikan fleksibilitas yang tinggi dalam pengelolaan memori dan ukuran antrian yang tidak terbatas, sesuai dengan kebutuhan sistem antrian printer yang dapat berubah-ubah sewaktu-waktu.
-Daftar Pustaka (Minimal 3 Sumber):
+### Alur Sistem (Input → Proses → Output)
 
-Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). Introduction to Algorithms (3rd ed.). MIT Press.
-Weiss, M. A. (2014). Data Structures and Algorithm Analysis in C++ (4th ed.). Pearson.
-Sedgewick, R., & Wayne, K. (2011). Algorithms (4th ed.). Addison-Wesley.
+- **Input**: Nama file dokumen dan jumlah halaman yang dimasukkan pengguna.
+- **Proses**: Dokumen masuk ke Queue (Enqueue) → Antrian disimpan menggunakan Linked List → Dokumen diproses sesuai FIFO (Dequeue).
+- **Output**: Dokumen yang sedang dicetak, daftar antrian lengkap dalam bentuk tabel, dan informasi dokumen berikutnya.
 
-(Kamu boleh mengganti atau menambah sumber sesuai kebutuhan. Jika dosen meminta sumber berbahasa Indonesia, beri tahu saya agar saya ubah.)
+### Desain Sistem (Pseudocode)
 
-3. Desain Sistem dan Implementasi
-Diagram Proses Sistem
-Alur Sistem Antrian Printer:
-textInput:
-- Nama File
-- Jumlah Halaman
-- Nama Pengguna
+```pseudocode
+Class PrintQueue:
+    front, rear ← null
+    ukuran ← 0
 
-          ↓
-
-     ENQUEUE
-(Menambahkan dokumen ke belakang antrian)
-
-          ↓
-
-     DISPLAY
-(Melihat seluruh antrian)
-
-          ↓
-
-     PEEK
-(Melihat dokumen berikutnya)
-
-          ↓
-
-     DEQUEUE
-(Mencetak dokumen dari depan antrian)
-
-          ↓
-
-     Output:
-- Status pencetakan
-- Daftar antrian terkini
-Pseudocode
-textClass Node
-    data: nama_file, jumlah_halaman, nama_pengguna
-    next: pointer ke node berikutnya
-
-Class PrinterQueue
-    front: pointer ke depan antrian
-    rear: pointer ke belakang antrian
-    size: integer
-
-    Procedure Enqueue(nama_file, jumlah_halaman, nama_pengguna)
+    Enqueue(nama, halaman):
         buat node baru
-        jika antrian kosong maka
+        jika queue kosong:
             front = rear = node baru
-        else
+        else:
             rear.next = node baru
             rear = node baru
-        size = size + 1
+        ukuran += 1
 
-    Procedure Dequeue()
-        jika antrian kosong maka return null
-        dokumen_dicetak = front
+    Dequeue():
+        jika queue kosong: return
+        cetak dokumen front
         front = front.next
-        jika front == null maka rear = null
-        size = size - 1
-        return dokumen_dicetak
+        ukuran -= 1
 
-    Procedure Peek()
-        jika antrian kosong maka return null
-        return front
-
-    Procedure Display()
-        tampilkan semua node dari front sampai null
-Implementasi Program
-Sistem telah diimplementasikan menggunakan bahasa Python dengan struktur data Singly Linked List. File utama program bernama printer_queue.py. Seluruh operasi utama (Enqueue, Dequeue, Peek, Display) telah berhasil diimplementasikan sesuai dengan teori Queue.
-
+    Peek(): tampilkan front
+    Display(): tampilkan semua node dalam bentuk tabel
+```

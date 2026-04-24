@@ -1,140 +1,153 @@
-# =====================================================
-# SISTEM ANTRIAN PRINTER - Menggunakan Queue + Linked List
-# Project UTS Struktur Data - Semester Genap 2025/2026
-# Studi Kasus: Sistem Antrian Printer di Laboratorium Komputer
-# =====================================================
+# =============================================
+# SISTEM ANTRIAN PRINTER (PRINT QUEUE)
+# Menggunakan Queue dengan Linked List
+# =============================================
+
+class Document:
+    def __init__(self, nama_file, jumlah_halaman):
+        self.nama_file = nama_file
+        self.jumlah_halaman = jumlah_halaman
+        self.next = None
 
 
-class Node:
-    """
-    Kelas Node untuk Linked List.
-    Setiap node merepresentasikan satu dokumen print.
-    """
-    def __init__(self, nama_file, jumlah_halaman, nama_pengguna):
-        self.nama_file = nama_file          # Nama file yang akan dicetak
-        self.jumlah_halaman = jumlah_halaman  # Jumlah halaman
-        self.nama_pengguna = nama_pengguna    # Nama mahasiswa / pengguna
-        self.next = None                    # Pointer ke dokumen berikutnya
-
-
-class PrinterQueue:
-    """
-    Kelas utama untuk mengelola Antrian Printer menggunakan Queue (Linked List).
-    Mengikuti prinsip FIFO (First In First Out).
-    """
-    
+class PrintQueue:
     def __init__(self):
-        self.front = None   # Depan antrian (akan dilayani pertama)
-        self.rear = None    # Belakang antrian (tempat menambah dokumen baru)
-        self.size = 0       # Jumlah dokumen dalam antrian
+        self.front = None
+        self.rear = None
+        self.ukuran = 0
 
     def is_empty(self):
-        """Cek apakah antrian kosong"""
         return self.front is None
 
-    def enqueue(self, nama_file, jumlah_halaman, nama_pengguna):
-        """
-        Menambahkan dokumen baru ke belakang antrian (Enqueue).
-        Operasi ini O(1) karena kita menyimpan pointer rear.
-        """
-        new_node = Node(nama_file, jumlah_halaman, nama_pengguna)
+    # ENQUEUE - Tambah dokumen ke antrian
+    def enqueue(self, nama_file, jumlah_halaman):
+        new_doc = Document(nama_file, jumlah_halaman)
         
         if self.is_empty():
-            # Jika antrian kosong, front dan rear menunjuk ke node yang sama
-            self.front = new_node
-            self.rear = new_node
+            self.front = self.rear = new_doc
         else:
-            # Tambahkan di belakang
-            self.rear.next = new_node
-            self.rear = new_node
+            self.rear.next = new_doc
+            self.rear = new_doc
         
-        self.size += 1
-        print(f"✓ Dokumen '{nama_file}' dari {nama_pengguna} berhasil masuk antrian.")
+        self.ukuran += 1
+        print(f"✅ Dokumen '{nama_file}' ({jumlah_halaman} halaman) berhasil ditambahkan ke antrian.")
 
+    # DEQUEUE - Proses/cetak dokumen berikutnya
     def dequeue(self):
-        """
-        Mengambil dan menghapus dokumen dari depan antrian (Dequeue).
-        Dokumen ini yang sedang dicetak.
-        Operasi ini O(1).
-        """
         if self.is_empty():
-            print("❌ Antrian printer kosong! Tidak ada dokumen yang bisa dicetak.")
-            return None
-        
-        printed_doc = self.front
-        self.front = self.front.next
-        
-        # Jika setelah dequeue antrian menjadi kosong
-        if self.front is None:
-            self.rear = None
-        
-        self.size -= 1
-        
-        print(f"🖨️  Sedang mencetak: {printed_doc.nama_file} "
-              f"({printed_doc.jumlah_halaman} halaman) - {printed_doc.nama_pengguna}")
-        
-        return printed_doc
-
-    def peek(self):
-        """
-        Melihat dokumen di depan antrian tanpa menghapusnya (Peek).
-        """
-        if self.is_empty():
-            print("❌ Antrian kosong.")
-            return None
-        
-        print(f"📄 Dokumen berikutnya yang akan dicetak: "
-              f"{self.front.nama_file} ({self.front.jumlah_halaman} halaman) "
-              f"- {self.front.nama_pengguna}")
-        return self.front
-
-    def display(self):
-        """
-        Menampilkan semua dokumen dalam antrian saat ini.
-        """
-        if self.is_empty():
-            print("📭 Antrian printer saat ini kosong.")
+            print("❌ Antrian kosong! Tidak ada dokumen yang bisa dicetak.")
             return
         
-        print("\n" + "="*60)
-        print("             DAFTAR ANTRIAN PRINTER SAAT INI")
-        print("="*60)
-        print(f"{'No':<3} {'Pengguna':<15} {'File':<20} {'Halaman':<8}")
-        print("-"*60)
+        temp = self.front
+        print(f"🖨️  Sedang mencetak: '{temp.nama_file}' ({temp.jumlah_halaman} halaman)...")
         
-        current = self.front
-        count = 1
-        while current:
-            print(f"{count:<3} {current.nama_pengguna:<15} "
-                  f"{current.nama_file:<20} {current.jumlah_halaman:<8}")
-            current = current.next
-            count += 1
+        self.front = self.front.next
+        self.ukuran -= 1
         
-        print(f"\nTotal dokumen dalam antrian: {self.size}")
-        print("="*60)
+        if self.front is None:
+            self.rear = None
 
-# ====================== PROGRAM UTAMA ======================
+    # PEEK - Lihat dokumen yang akan dicetak berikutnya
+    def peek(self):
+        if self.is_empty():
+            print("❌ Antrian kosong!")
+        else:
+            print(f"📌 Dokumen berikutnya yang akan dicetak: '{self.front.nama_file}' "
+                  f"({self.front.jumlah_halaman} halaman)")
+
+    # DISPLAY - Tampilkan seluruh antrian dalam bentuk TABEL
+    def display(self):
+        if self.is_empty():
+            print("📭 Antrian printer kosong.")
+            return
+        
+        # Kumpulkan semua data dulu untuk menghitung lebar kolom
+        data = []
+        current = self.front
+        nomor = 1
+        max_nama = 0
+        
+        while current:
+            nama = current.nama_file
+            if len(nama) > max_nama:
+                max_nama = len(nama)
+            data.append((nomor, nama, current.jumlah_halaman))
+            current = current.next
+            nomor += 1
+        
+        # Tentukan lebar kolom
+        lebar_nomor = 4
+        lebar_nama = max(max_nama, 15)   # minimal 15 karakter
+        lebar_halaman = 12
+        
+        # Garis pemisah
+        garis = "+" + "-" * lebar_nomor + "+" + "-" * lebar_nama + "+" + "-" * lebar_halaman + "+"
+        
+        print("\n" + garis)
+        print(f"| {'No':<{lebar_nomor-1}} | {'Nama File':<{lebar_nama}} | {'Jumlah Halaman':<{lebar_halaman-1}} |")
+        print(garis)
+        
+        for no, nama, halaman in data:
+            print(f"| {no:<{lebar_nomor-1}} | {nama:<{lebar_nama}} | {halaman:>{lebar_halaman-1}} |")
+        
+        print(garis)
+        print(f"Total dokumen dalam antrian : {self.ukuran}")
+        print(garis)
+
+    # Bersihkan memory saat keluar
+    def clear(self):
+        while not self.is_empty():
+            self.dequeue()
+
+
+# =============================================
+# MAIN PROGRAM - MENU
+# =============================================
+def main():
+    printer = PrintQueue()
+    
+    print("=====================================")
+    print("   SISTEM ANTRIAN PRINTER (QUEUE)    ")
+    print("=====================================\n")
+
+    while True:
+        print("\n=== MENU ===")
+        print("1. Tambah Dokumen (Enqueue)")
+        print("2. Cetak Dokumen (Dequeue)")
+        print("3. Lihat Dokumen Berikutnya (Peek)")
+        print("4. Tampilkan Seluruh Antrian (Display)")
+        print("5. Keluar")
+        
+        try:
+            pilihan = int(input("Pilih menu (1-5): "))
+        except ValueError:
+            print("❌ Masukkan angka yang valid!")
+            continue
+
+        if pilihan == 1:
+            nama_file = input("Masukkan nama file: ")
+            try:
+                halaman = int(input("Masukkan jumlah halaman: "))
+                printer.enqueue(nama_file, halaman)
+            except ValueError:
+                print("❌ Jumlah halaman harus berupa angka!")
+        
+        elif pilihan == 2:
+            printer.dequeue()
+        
+        elif pilihan == 3:
+            printer.peek()
+        
+        elif pilihan == 4:
+            printer.display()
+        
+        elif pilihan == 5:
+            print("Terima kasih telah menggunakan Sistem Antrian Printer!")
+            printer.clear()
+            break
+        
+        else:
+            print("❌ Pilihan tidak valid! Silakan pilih 1-5.")
+
 if __name__ == "__main__":
-    print("🚀 SISTEM ANTRIAN PRINTER - Laboratorium Komputer")
-    print("Menggunakan Queue berbasis Linked List\n")
-    
-    printer = PrinterQueue()
-    
-    # Contoh simulasi penggunaan
-    printer.enqueue("Laporan_UTS.pdf", 15, "I Putu Gilang Pradnyana")
-    printer.enqueue("Tugas_Akhir.docx", 8, "Budi Santoso")
-    printer.enqueue("Slide_Presentasi.pptx", 12, "Siti Aisyah")
-    
-    printer.display()
-    
-    printer.peek()
-    
-    printer.dequeue()   # Mencetak dokumen pertama
-    printer.display()
-    
-    printer.dequeue()   # Mencetak dokumen kedua
-    printer.display()
-    
-    # Tambah dokumen baru saat antrian sedang berjalan
-    printer.enqueue("Kwitansi_Semester.pdf", 3, "Ahmad Fauzi")
-    printer.display()
+    main()
